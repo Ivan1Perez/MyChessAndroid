@@ -2,12 +2,10 @@ package es.ieslavereda.mychessandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -30,8 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
         row.addView(getTextView(""));
 
-        for(int i=0;i<8;i++)
-            row.addView(getTextView(String.valueOf((char)('A'+i))));
+        for(int i = 0; i < 8 ; i++){
+
+            for(int j = 0; j <8; j++)
+                row.addView(getTextView(String.valueOf((char)('A'+ j))));
+        }
 
         row.addView(getTextView(""));
 
