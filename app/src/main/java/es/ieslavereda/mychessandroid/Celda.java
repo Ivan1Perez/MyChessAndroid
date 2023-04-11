@@ -57,7 +57,6 @@ public class Celda extends androidx.appcompat.widget.AppCompatImageView {
 
         setPadding(0,0,0,0);
         setScaleType(ScaleType.FIT_CENTER);
-        setImageResource(R.mipmap.ic_b_knight_foreground);
         setAdjustViewBounds(true);
 
         updateCellView();

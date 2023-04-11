@@ -131,25 +131,25 @@ public class Tablero extends TableLayout {
         }
     }
 
-    @Override
-    public String toString(){
-        String output = "   A  B  C  D  E  F  G  H\n";
-        for(int row = 0; row <=7; row++){
-            output += (row+1)+" ";
-            for(int col=0; col<=7; col++){
-                output += mapaTablero.get(new Coordenada((char)('A'+col), row+1));
-            }
-            output +=" "+(row+1)+"\n";
-        }
-        output += "   A  B  C  D  E  F  G  H\n";
-
-        output += "\t\t REMAINING PIECES";
-        output += "\n" + remainigPieces.toString() + "\n";
-
-        output += "\t\t DELETED PIECES";
-        output += "\n" + deletedPieces.toString();
-
-        return output;
-    }
+//    @Override
+//    public String toString(){
+//        String output = "   A  B  C  D  E  F  G  H\n";
+//        for(int row = 0; row <=7; row++){
+//            output += (row+1)+" ";
+//            for(int col=0; col<=7; col++){
+//                output += mapaTablero.get(new Coordenada((char)('A'+col), row+1));
+//            }
+//            output +=" "+(row+1)+"\n";
+//        }
+//        output += "   A  B  C  D  E  F  G  H\n";
+//
+//        output += "\t\t REMAINING PIECES";
+//        output += "\n" + remainigPieces.toString() + "\n";
+//
+//        output += "\t\t DELETED PIECES";
+//        output += "\n" + deletedPieces.toString();
+//
+//        return output;
+//    }
 
 }

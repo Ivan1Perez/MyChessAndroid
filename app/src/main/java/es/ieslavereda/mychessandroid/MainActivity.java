@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             for (int c = 'A'; c <= 'H'; c++) {
                 Celda celda = new Celda(this, new Coordenada((char) c, r), null);
                 celda.setOnClickListener(this);
+//                celda.setImageResource(R.mipmap.ic_b_knight_foreground);
                 row.addView(celda);
             }
 
@@ -52,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Fila inferior
         addTextViews();
+
+        // Rellenamos el tablero
+        fillBoard();
+
     }
 
     private void addTextViews() {
@@ -66,30 +71,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         row.addView(getTextView(""));
 
         board.addView(row);
+
     }
 
+    private void fillBoard(){
+        TableRow row1 = (TableRow) board.getChildAt(1), row2 = (TableRow) board.getChildAt(2);
+        TableRow row7 = (TableRow) board.getChildAt(7), row8 = (TableRow) board.getChildAt(8);
 
-//    private View getCell(Coordinate coordinate) {
-//        DisplayMetrics displayMetrics = new DisplayMetrics();
-//
-//        ((Activity) this).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-//
-//        int widh = displayMetrics.widthPixels;
-//
-//        ImageView imageView = new ImageView(this);
-//
-//        if((coordinate.getRow() - 1 + coordinate.getColumn() - 'A') % 2 == 0)
-//            imageView.setBackgroundColor(getResources().getColor(R.color.cell_white,getApplicationContext().getTheme()));
-//         else
-//            imageView.setBackgroundColor(getResources().getColor(R.color.cell_black,getApplicationContext().getTheme()));
-//
-//        imageView.setMaxWidth(widh/10);
-//        imageView.setMinimumWidth(widh/10);
-//        imageView.setMaxHeight(widh/10);
-//        imageView.setMinimumHeight(widh/10);
-//
-//        return imageView;
-//    }
+        if(row1.getChildAt(1) instanceof Celda){
+            Celda celda = (Celda) row1.getChildAt(1);
+            celda.setImageResource(R.mipmap.ic_b_knight_foreground);
+        }
+
+    }
 
     private TextView getTextView(String text) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
