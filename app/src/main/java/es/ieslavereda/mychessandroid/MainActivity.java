@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TableRow row;
         board = findViewById(R.id.board);
         textView = findViewById(R.id.textView2);
+        String color;
+
 
         // Fila superior
         addTextViews();
@@ -55,7 +59,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addTextViews();
 
         // Rellenamos el tablero
-        fillBoard();
+        color = getIntent().getStringExtra("color");
+        if (color.equals("blancas")) {
+            fillBoard(true);
+        } else {
+            fillBoard(false);
+        }
 
     }
 
@@ -74,13 +83,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void fillBoard(){
+    private void fillBoard(boolean whitesUp){
         TableRow row1 = (TableRow) board.getChildAt(1), row2 = (TableRow) board.getChildAt(2);
         TableRow row7 = (TableRow) board.getChildAt(7), row8 = (TableRow) board.getChildAt(8);
+        Celda celda;
 
-        if(row1.getChildAt(1) instanceof Celda){
-            Celda celda = (Celda) row1.getChildAt(1);
-            celda.setImageResource(R.mipmap.ic_b_knight_foreground);
+        int[] imgPiezasBlancas = {R.mipmap.ic_b_torre_foreground, R.mipmap.ic_b_knight_foreground,
+                R.mipmap.ic_b_alfil_foreground, R.mipmap.ic_b_rey_foreground,
+                R.mipmap.ic_b_reina_foreground, R.mipmap.ic_b_alfil_foreground,
+                R.mipmap.ic_b_knight_foreground, R.mipmap.ic_b_torre_foreground};
+
+        int[] imgPiezasNegras = {R.mipmap.ic_n_torre_foreground, R.mipmap.ic_n_caballo_foreground,
+                R.mipmap.ic_n_alfil_foreground, R.mipmap.ic_n_rey_foreground,
+                R.mipmap.ic_n_reina_foreground, R.mipmap.ic_n_alfil_foreground,
+                R.mipmap.ic_n_caballo_foreground, R.mipmap.ic_n_torre_foreground};
+
+
+        //Agregamos la primera fila por arriba
+        if (whitesUp) {
+            for(int i = 1; i < row1.getChildCount()-1; i++){
+                celda = (Celda) row1.getChildAt(i);
+                celda.setImageResource(imgPiezasBlancas[i-1]);
+            }
+        } else {
+            for(int i = 1; i < row1.getChildCount()-1; i++){
+                celda = (Celda) row1.getChildAt(i);
+                celda.setImageResource(imgPiezasNegras[i-1]);
+            }
+        }
+
+        //Agregamos los peones
+        for(int i = 1; i < row2.getChildCount()-1; i++){
+            celda = (Celda) row2.getChildAt(i);
+            celda.setImageResource(R.mipmap.ic_b_peon_foreground);
+            celda = (Celda) row7.getChildAt(i);
+            celda.setImageResource(R.mipmap.ic_n_peon_foreground);
+        }
+
+        //Agregamos la primera fila por arriba
+        for(int i = 1; i < row8.getChildCount()-1; i++){
+            celda = (Celda) row8.getChildAt(i);
+            celda.setImageResource(imgPiezasNegras[i-1]);
         }
 
     }
