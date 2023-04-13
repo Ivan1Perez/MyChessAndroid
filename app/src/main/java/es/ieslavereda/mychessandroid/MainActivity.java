@@ -1,6 +1,7 @@
 package es.ieslavereda.mychessandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -9,13 +10,10 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -31,8 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TableRow row;
         board = findViewById(R.id.board);
         textView = findViewById(R.id.textView2);
-        String color;
-
 
         // Fila superior
         addTextViews();
@@ -59,13 +55,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addTextViews();
 
         // Rellenamos el tablero
-        color = getIntent().getStringExtra("color");
-        if (color.equals("blancas")) {
-            fillBoard(true);
-        } else {
-            fillBoard(false);
-        }
+        fillBoard();
 
+        //Almacenamos los nombres de los nuevos jugadores y de paso saludamos
+        showNames();
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void showNames() {
+        Intent intent = getIntent();
+        TextView tVPlayer1Name = findViewById(R.id.tVPlayer1Name), tVPlayer2Name = findViewById(R.id.tVPlayer2Name);
+
+        // Verificar si el intent tiene los extras "player1Name" y "player2Name"
+        if (intent.hasExtra("player1Name") && intent.hasExtra("player2Name")) {
+            String player1Name = intent.getStringExtra("player1Name");
+            String player2Name = intent.getStringExtra("player2Name");
+
+            // Mostrar el Toast en MainActivity
+            Toast.makeText(MainActivity.this, "Welcome " + player1Name + " and " + player2Name + "!", Toast.LENGTH_SHORT).show();
+
+            if(getIntent().getStringExtra("color").equals("blacks")){
+                ConstraintLayout.LayoutParams layoutParams1 = (ConstraintLayout.LayoutParams) tVPlayer1Name.getLayoutParams();
+                        layoutParams1.topToBottom = board.getId();
+                        layoutParams1.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
+                        layoutParams1.bottomToTop = ConstraintLayout.LayoutParams.UNSET;
+
+                tVPlayer1Name.setLayoutParams(layoutParams1);
+
+                ConstraintLayout.LayoutParams layoutParams2 = (ConstraintLayout.LayoutParams) tVPlayer2Name.getLayoutParams();
+                        layoutParams2.bottomToTop = board.getId();
+                        layoutParams2.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
+                        layoutParams2.topToBottom = ConstraintLayout.LayoutParams.UNSET;
+
+                tVPlayer2Name.setLayoutParams(layoutParams2);
+            }
+
+            tVPlayer1Name.setText("Player 1: " + player1Name);
+            tVPlayer2Name.setText("Player 2: " + player2Name);
+        }
     }
 
     private void addTextViews() {
@@ -83,33 +111,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void fillBoard(boolean whitesUp){
-        TableRow row1 = (TableRow) board.getChildAt(1), row2 = (TableRow) board.getChildAt(2);
-        TableRow row7 = (TableRow) board.getChildAt(7), row8 = (TableRow) board.getChildAt(8);
+    private void fillBoard(){
+        String color = getIntent().getStringExtra("color");
+        TableRow row1, row2, row7, row8;
         Celda celda;
+        int[] imgPiezasBlancas, imgPiezasNegras;
 
-        int[] imgPiezasBlancas = {R.mipmap.ic_b_torre_foreground, R.mipmap.ic_b_knight_foreground,
-                R.mipmap.ic_b_alfil_foreground, R.mipmap.ic_b_rey_foreground,
-                R.mipmap.ic_b_reina_foreground, R.mipmap.ic_b_alfil_foreground,
-                R.mipmap.ic_b_knight_foreground, R.mipmap.ic_b_torre_foreground};
-
-        int[] imgPiezasNegras = {R.mipmap.ic_n_torre_foreground, R.mipmap.ic_n_caballo_foreground,
-                R.mipmap.ic_n_alfil_foreground, R.mipmap.ic_n_rey_foreground,
-                R.mipmap.ic_n_reina_foreground, R.mipmap.ic_n_alfil_foreground,
-                R.mipmap.ic_n_caballo_foreground, R.mipmap.ic_n_torre_foreground};
+        if (color.equals("blacks")) {
+            row1 = (TableRow) board.getChildAt(1);
+            row2 = (TableRow) board.getChildAt(2);
+            row7 = (TableRow) board.getChildAt(7);
+            row8 = (TableRow) board.getChildAt(8);
+            imgPiezasBlancas = new int[]{R.mipmap.ic_b_torre_foreground, R.mipmap.ic_b_knight_foreground,
+                    R.mipmap.ic_b_alfil_foreground, R.mipmap.ic_b_rey_foreground,
+                    R.mipmap.ic_b_reina_foreground, R.mipmap.ic_b_alfil_foreground,
+                    R.mipmap.ic_b_knight_foreground, R.mipmap.ic_b_torre_foreground};
+            imgPiezasNegras = new int[]{R.mipmap.ic_n_torre_foreground, R.mipmap.ic_n_caballo_foreground,
+                    R.mipmap.ic_n_alfil_foreground, R.mipmap.ic_n_rey_foreground,
+                    R.mipmap.ic_n_reina_foreground, R.mipmap.ic_n_alfil_foreground,
+                    R.mipmap.ic_n_caballo_foreground, R.mipmap.ic_n_torre_foreground};
+        } else {
+            row1 = (TableRow) board.getChildAt(8);
+            row2 = (TableRow) board.getChildAt(7);
+            row7 = (TableRow) board.getChildAt(2);
+            row8 = (TableRow) board.getChildAt(1);
+            imgPiezasBlancas = new int[]{R.mipmap.ic_b_torre_foreground, R.mipmap.ic_b_knight_foreground,
+                    R.mipmap.ic_b_alfil_foreground, R.mipmap.ic_b_reina_foreground,
+                    R.mipmap.ic_b_rey_foreground, R.mipmap.ic_b_alfil_foreground,
+                    R.mipmap.ic_b_knight_foreground, R.mipmap.ic_b_torre_foreground};
+            imgPiezasNegras = new int[]{R.mipmap.ic_n_torre_foreground, R.mipmap.ic_n_caballo_foreground,
+                    R.mipmap.ic_n_alfil_foreground, R.mipmap.ic_n_reina_foreground,
+                    R.mipmap.ic_n_rey_foreground, R.mipmap.ic_n_alfil_foreground,
+                    R.mipmap.ic_n_caballo_foreground, R.mipmap.ic_n_torre_foreground};
+        }
 
 
         //Agregamos la primera fila por arriba
-        if (whitesUp) {
-            for(int i = 1; i < row1.getChildCount()-1; i++){
-                celda = (Celda) row1.getChildAt(i);
-                celda.setImageResource(imgPiezasBlancas[i-1]);
-            }
-        } else {
-            for(int i = 1; i < row1.getChildCount()-1; i++){
-                celda = (Celda) row1.getChildAt(i);
-                celda.setImageResource(imgPiezasNegras[i-1]);
-            }
+        for(int i = 1; i < row1.getChildCount()-1; i++){
+            celda = (Celda) row1.getChildAt(i);
+            celda.setImageResource(imgPiezasBlancas[i-1]);
         }
 
         //Agregamos los peones
@@ -120,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             celda.setImageResource(R.mipmap.ic_n_peon_foreground);
         }
 
-        //Agregamos la primera fila por arriba
+        //Agregamos la primera fila por abajo
         for(int i = 1; i < row8.getChildCount()-1; i++){
             celda = (Celda) row8.getChildAt(i);
             celda.setImageResource(imgPiezasNegras[i-1]);
@@ -147,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return textView;
     }
+
 
     @Override
     public void onClick(View view) {
