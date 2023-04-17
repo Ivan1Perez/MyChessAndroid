@@ -27,7 +27,7 @@ public class Tablero extends TableLayout {
 
         whitesUp = false;
         this.remainigPieces = new DeletePieceManagerOwn();
-//        this.deletedPieces = new DeletePieceManagerOwn();
+        this.deletedPieces = new DeletePieceManagerOwn();
         mapaTablero = new LinkedHashMap<>();
         Coordenada coordenada;
 

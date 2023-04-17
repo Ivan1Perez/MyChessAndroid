@@ -15,10 +15,16 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private TableLayout board;
     private TextView textView;
+    private Set<Coordenada> coordenadas;
+    private Coordenada coordenadaSeleccionada;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -59,6 +65,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Almacenamos los nombres de los nuevos jugadores y de paso saludamos
         showNames();
+
+        //Gestionamos los turnos de los jugadores
+        turn();
+    }
+
+    private void turn() {
+
+        //Almacenamos la celda seleccionada por el jugador
+        Celda celdaSeleccionada = selectCell();
+
+//        if(coordenadas.size() != 0) {
+//            t.highlight(coordenadas);
+//            MatchScreen.printBoard(t);
+//            //A continuación el usuario selecciona el movimiento o cancela el mover esa pieza
+//            selectMovement(celda);
+//            t.resetColors();
+//            if (movementDone) {
+//                isKingOnTarget(false, t);
+//                if (kingOnTarget)
+//                    if (colorKingOnTarget != color)
+//                        isCheckmate();
+//            }
+//            MatchScreen.printBoard(t);
+//        }
+
+
+    }
+
+    private Celda selectCell() {
+        Celda celda;
+
+        if(coordenadaSeleccionada!=null){
+            celda = board.getCelda
+            coordenadas = new HashSet<>(celda.getPiece().getNextMoves());
+        }
+
+        return celda;
 
     }
 
@@ -191,9 +234,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(view instanceof Celda)
+        if(view instanceof Celda){
             textView.setText(((Celda)view).getCoordenada().toString());
-        else
+            coordenadaSeleccionada = ((Celda) view).getCoordenada();
+        }
+        else{
             textView.setText(((TextView)view).getText());
+            coordenadaSeleccionada = null;
+        }
     }
 }
