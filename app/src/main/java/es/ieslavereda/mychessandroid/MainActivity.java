@@ -67,43 +67,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         showNames();
 
         //Gestionamos los turnos de los jugadores
-        turn();
+//        turn();
     }
 
-    private void turn() {
+//    private void turn() {
+//
+//        //Almacenamos la celda seleccionada por el jugador
+//        Celda celdaSeleccionada = selectCell();
+//
+//        celdaSeleccionada.getTablero().highlight(celdaSeleccionada.getPiece().getNextMoves());
+//
+//
+////        if(coordenadas.size() != 0) {
+////            .highlight(coordenadas);
+////            MatchScreen.printBoard(t);
+////            //A continuación el usuario selecciona el movimiento o cancela el mover esa pieza
+////            selectMovement(celda);
+////            t.resetColors();
+////            if (movementDone) {
+////                isKingOnTarget(false, t);
+////                if (kingOnTarget)
+////                    if (colorKingOnTarget != color)
+////                        isCheckmate();
+////            }
+////            MatchScreen.printBoard(t);
+////        }
+//
+//
+//    }
 
-        //Almacenamos la celda seleccionada por el jugador
-        Celda celdaSeleccionada = selectCell();
-
-//        if(coordenadas.size() != 0) {
-//            t.highlight(coordenadas);
-//            MatchScreen.printBoard(t);
-//            //A continuación el usuario selecciona el movimiento o cancela el mover esa pieza
-//            selectMovement(celda);
-//            t.resetColors();
-//            if (movementDone) {
-//                isKingOnTarget(false, t);
-//                if (kingOnTarget)
-//                    if (colorKingOnTarget != color)
-//                        isCheckmate();
-//            }
-//            MatchScreen.printBoard(t);
+//    private Celda selectCell() {
+//        Celda celda = null;
+//
+//        if(coordenadaSeleccionada!=null){
+//            celda = board.getCelda
+//            coordenadas = new HashSet<>(celda.getPiece().getNextMoves());
 //        }
-
-
-    }
-
-    private Celda selectCell() {
-        Celda celda;
-
-        if(coordenadaSeleccionada!=null){
-            celda = board.getCelda
-            coordenadas = new HashSet<>(celda.getPiece().getNextMoves());
-        }
-
-        return celda;
-
-    }
+//
+//        return celda;
+//
+//    }
 
     @SuppressLint("SetTextI18n")
     private void showNames() {
@@ -236,7 +239,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if(view instanceof Celda){
             textView.setText(((Celda)view).getCoordenada().toString());
-            coordenadaSeleccionada = ((Celda) view).getCoordenada();
+            Celda celda = (Celda) view;
+            if (!celda.isEmpty()){
+                coordenadaSeleccionada = celda.getCoordenada();
+                celda.getTablero().highlight(celda.getPiece().getNextMoves());
+            }
         }
         else{
             textView.setText(((TextView)view).getText());
